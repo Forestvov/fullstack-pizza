@@ -1,6 +1,7 @@
 'use client'
 
 import { useCategoryStore } from '@/store/category'
+import { Product } from '@prisma/client'
 import React from 'react'
 import { useIntersection } from 'react-use'
 import { ProductCard } from './product-card'
@@ -8,7 +9,7 @@ import { Title } from './title'
 
 interface Props {
 	title: string
-	items: unknown[]
+	items: Product[]
 	categoryId: number
 	className?: string
 	listClassName?: string
@@ -32,7 +33,7 @@ export const ProductsGroupList: React.FC<Props> = ({
 		if (intersection?.isIntersecting) {
 			setActiveCategoryId(categoryId)
 		}
-	}, [categoryId, intersection])
+	}, [categoryId, intersection, setActiveCategoryId])
 
 	return (
 		<div className={className} id={title} ref={intersectionRef}>
@@ -44,7 +45,7 @@ export const ProductsGroupList: React.FC<Props> = ({
 						key={i}
 						name={product.name}
 						imageUrl={product.imageUrl}
-						price={product.items[0].price}
+						price={product.variations[0].price}
 						count={i % 2}
 						id={product.id}
 					/>
